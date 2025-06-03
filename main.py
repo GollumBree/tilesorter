@@ -9,6 +9,7 @@ k = 5
 class HalberAffe(Enum):
     """
     Enum for Affe
+    Red=Rot, Yellow=Braun, Green=Grün, Blue=Grau
     """
 
     RED_TOP = 0
