@@ -48,6 +48,7 @@ def rotate(tile: Tile, times: int) -> Tile:
 def backtrack(
     board: Array[Array[Tile]], tiles: list[Tile], index: int = 0
 ) -> bool | Array[Array[Tile]]:
+    print("starting backtrack with index:", index)
     if index >= k * k:
         return board
     for tile in [rotate(t, i) for t in tiles for i in range(4)]:
@@ -70,112 +71,168 @@ def backtrack(
 def main():
     tiles: FixedLengthTuple[Tile, 4 | 9 | 16 | 25] = (
         (
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.YELLOW_TOP,
-        ),
-        (
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.RED_TOP,
-            HalberAffe.RED_BOTTOM,
-        ),
-        (
             HalberAffe.GREEN_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+        ),
+        (
+            HalberAffe.RED_TOP,
             HalberAffe.RED_BOTTOM,
             HalberAffe.GREEN_BOTTOM,
-            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.RED_BOTTOM,
         ),
         (
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_TOP,
             HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.GREEN_TOP,
+            HalberAffe.YELLOW_TOP,
         ),
         (
             HalberAffe.RED_TOP,
-            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.YELLOW_TOP,
             HalberAffe.YELLOW_TOP,
             HalberAffe.RED_TOP,
         ),
         (
-            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.RED_BOTTOM,
             HalberAffe.BLUE_BOTTOM,
-            HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.YELLOW_TOP,
+        ),
+        (
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.RED_TOP,
+            HalberAffe.YELLOW_TOP,
         ),
         (
             HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+        ),
+        (
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.RED_TOP,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.GREEN_TOP,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.RED_TOP,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.RED_BOTTOM,
+        ),
+        (
+            HalberAffe.RED_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.BLUE_BOTTOM,
+        ),
+        (
+            HalberAffe.RED_BOTTOM,
+            HalberAffe.RED_TOP,
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.YELLOW_TOP,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+        ),
+        (
+            HalberAffe.RED_BOTTOM,
+            HalberAffe.RED_TOP,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+        ),
+        (
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.RED_TOP,
+            HalberAffe.BLUE_BOTTOM,
+        ),
+        (
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_BOTTOM,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.GREEN_TOP,
+        ),
+        (
+            HalberAffe.BLUE_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_TOP,
+            HalberAffe.RED_BOTTOM,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.GREEN_BOTTOM,
+        ),
+        (
+            HalberAffe.RED_TOP,
             HalberAffe.RED_BOTTOM,
             HalberAffe.BLUE_TOP,
             HalberAffe.BLUE_TOP,
         ),
         (
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.YELLOW_BOTTOM,
             HalberAffe.RED_BOTTOM,
-            HalberAffe.RED_TOP,
-            HalberAffe.YELLOW_TOP,
+        ),
+        (
             HalberAffe.YELLOW_BOTTOM,
-        ),
-        (
-            HalberAffe.GREEN_TOP,
-            HalberAffe.RED_TOP,
+            HalberAffe.BLUE_TOP,
             HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.YELLOW_TOP,
-        ),
-        (
-            HalberAffe.RED_TOP,
-            HalberAffe.GREEN_BOTTOM,
-            HalberAffe.RED_TOP,
-            HalberAffe.GREEN_BOTTOM,
-        ),
-        (
-            HalberAffe.GREEN_BOTTOM,
-            HalberAffe.RED_TOP,
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.RED_TOP,
-        ),
-        (
-            HalberAffe.GREEN_BOTTOM,
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.GREEN_BOTTOM,
             HalberAffe.GREEN_TOP,
         ),
         (
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.RED_BOTTOM,
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_TOP,
             HalberAffe.GREEN_BOTTOM,
-            HalberAffe.BLUE_BOTTOM,
         ),
         (
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.YELLOW_TOP,
             HalberAffe.RED_BOTTOM,
             HalberAffe.YELLOW_BOTTOM,
-        ),
-        (
-            HalberAffe.YELLOW_BOTTOM,
             HalberAffe.GREEN_TOP,
-            HalberAffe.YELLOW_BOTTOM,
             HalberAffe.YELLOW_TOP,
-        ),
-        (
-            HalberAffe.GREEN_TOP,
-            HalberAffe.GREEN_TOP,
-            HalberAffe.RED_TOP,
-            HalberAffe.GREEN_BOTTOM,
         ),
     )
 
     annalenabaerboard: Array[Array[Tile]] = Array([Array[Tile](k) for _ in range(k)])
     result = backtrack(annalenabaerboard, tiles)
-    print(result)
+    # print(result)
     for row in result:
         print(
+            "[]",
             " | ".join(
                 f"{tile[0].name} {tile[1].name} {tile[2].name} {tile[3].name}"
                 for tile in row
-            )
+            ),
+            "]",
         )
 
 

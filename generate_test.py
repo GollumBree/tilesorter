@@ -70,19 +70,32 @@ def rotate_tile(
     return (top, right, bottom, left)
 
 
-def shuffle_and_rotate(grid):
+def shuffle_and_rotate(grid, n=4):
     tiles = [
         convert_tile(grid[i][j]) for i in range(len(grid)) for j in range(len(grid))
     ]
     random.shuffle(tiles)
     tiles = [rotate_tile(tile, random.randint(0, 3)) for tile in tiles]
-    return tuple(tiles[i * 4 : (i + 1) * 4] for i in range(4))
+    return tuple(tiles[i * n : (i + 1) * n] for i in range(n))
 
 
 # Generiere, mische und rotiere
 grid_4x4 = generate_valid_grid(5)
-final_4x4 = shuffle_and_rotate(grid_4x4)
+# print("Generated 4x4 grid:")
+# for row in grid_4x4:
+#     print(row)
+final_4x4 = shuffle_and_rotate(grid_4x4, 5)
+# print("\nShuffled and rotated tiles:")
+# for row in final_4x4:
+#     print(row)
 
-print("(" +
-      ", ".join(("(" + ", ".join(str(side) for side in tile) + ")" for tile in flatten(final_4x4))) +
-      ")")
+print(
+    "("
+    + ", ".join(
+        (
+            "(" + ", ".join(str(side) for side in tile) + ")"
+            for tile in flatten(final_4x4)
+        )
+    )
+    + ")"
+)
