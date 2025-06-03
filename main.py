@@ -3,7 +3,7 @@ from enum import Enum
 from cty import FixedLengthTuple, Array
 from copy import deepcopy
 
-k = 4
+k = 5
 
 
 class HalberAffe(Enum):
@@ -68,102 +68,102 @@ def backtrack(
 
 
 def main():
-    tiles: FixedLengthTuple[Tile, 4 | 9 | 16] = (
+    tiles: FixedLengthTuple[Tile, 4 | 9 | 16 | 25] = (
         (
-            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.RED_BOTTOM,
             HalberAffe.YELLOW_TOP,
-            HalberAffe.RED_TOP,
-            HalberAffe.RED_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.YELLOW_TOP,
         ),
         (
-            HalberAffe.GREEN_TOP,
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.RED_BOTTOM,
             HalberAffe.BLUE_BOTTOM,
-        ),
-        (
-            HalberAffe.BLUE_TOP,
-            HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.GREEN_BOTTOM,
             HalberAffe.RED_TOP,
-        ),
-        (
-            HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.BLUE_TOP,
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.YELLOW_BOTTOM,
-        ),
-        (
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.GREEN_BOTTOM,
-            HalberAffe.YELLOW_TOP,
-        ),
-        (
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.RED_BOTTOM,
-        ),
-        (
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.GREEN_BOTTOM,
-            HalberAffe.YELLOW_BOTTOM,
-        ),
-        (
-            HalberAffe.GREEN_TOP,
-            HalberAffe.RED_TOP,
-            HalberAffe.RED_TOP,
-            HalberAffe.YELLOW_TOP,
-        ),
-        (
-            HalberAffe.BLUE_TOP,
-            HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.GREEN_TOP,
-        ),
-        (
-            HalberAffe.BLUE_TOP,
-            HalberAffe.RED_TOP,
-            HalberAffe.GREEN_BOTTOM,
-            HalberAffe.RED_BOTTOM,
-        ),
-        (
-            HalberAffe.YELLOW_TOP,
-            HalberAffe.RED_BOTTOM,
-            HalberAffe.YELLOW_BOTTOM,
             HalberAffe.RED_BOTTOM,
         ),
         (
             HalberAffe.GREEN_TOP,
-            HalberAffe.GREEN_TOP,
             HalberAffe.RED_BOTTOM,
+            HalberAffe.GREEN_BOTTOM,
             HalberAffe.YELLOW_BOTTOM,
         ),
         (
-            HalberAffe.BLUE_TOP,
             HalberAffe.YELLOW_BOTTOM,
-            HalberAffe.BLUE_TOP,
-            HalberAffe.GREEN_BOTTOM,
-        ),
-        (
             HalberAffe.RED_BOTTOM,
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.BLUE_TOP,
-            HalberAffe.YELLOW_TOP,
-        ),
-        (
-            HalberAffe.BLUE_TOP,
+            HalberAffe.RED_BOTTOM,
             HalberAffe.GREEN_TOP,
-            HalberAffe.BLUE_BOTTOM,
-            HalberAffe.GREEN_BOTTOM,
         ),
         (
             HalberAffe.RED_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_TOP,
+        ),
+        (
+            HalberAffe.YELLOW_BOTTOM,
             HalberAffe.BLUE_BOTTOM,
             HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
             HalberAffe.RED_BOTTOM,
+            HalberAffe.BLUE_TOP,
+            HalberAffe.BLUE_TOP,
+        ),
+        (
+            HalberAffe.RED_BOTTOM,
+            HalberAffe.RED_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+        ),
+        (
+            HalberAffe.GREEN_TOP,
+            HalberAffe.RED_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.YELLOW_TOP,
+        ),
+        (
+            HalberAffe.RED_TOP,
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.RED_TOP,
+            HalberAffe.GREEN_BOTTOM,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.RED_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_TOP,
+        ),
+        (
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.GREEN_TOP,
+        ),
+        (
+            HalberAffe.BLUE_BOTTOM,
+            HalberAffe.RED_BOTTOM,
+            HalberAffe.GREEN_BOTTOM,
+            HalberAffe.BLUE_BOTTOM,
+        ),
+        (
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.YELLOW_TOP,
+            HalberAffe.RED_BOTTOM,
+            HalberAffe.YELLOW_BOTTOM,
+        ),
+        (
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.YELLOW_BOTTOM,
+            HalberAffe.YELLOW_TOP,
+        ),
+        (
+            HalberAffe.GREEN_TOP,
+            HalberAffe.GREEN_TOP,
+            HalberAffe.RED_TOP,
+            HalberAffe.GREEN_BOTTOM,
         ),
     )
 

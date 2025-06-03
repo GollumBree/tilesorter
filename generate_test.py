@@ -80,7 +80,7 @@ def shuffle_and_rotate(grid):
 
 
 # Generiere, mische und rotiere
-grid_4x4 = generate_valid_grid(4)
+grid_4x4 = generate_valid_grid(5)
 final_4x4 = shuffle_and_rotate(grid_4x4)
 
 print("(" +
