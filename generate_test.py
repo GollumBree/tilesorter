@@ -1,6 +1,8 @@
 import random
 from typing import Tuple
 
+from more_itertools import flatten
+
 
 def generate_valid_grid(n=4):
     grid = [[None for _ in range(n)] for _ in range(n)]
@@ -81,4 +83,6 @@ def shuffle_and_rotate(grid):
 grid_4x4 = generate_valid_grid(4)
 final_4x4 = shuffle_and_rotate(grid_4x4)
 
-print(final_4x4)
+print("(" +
+      ", ".join(("(" + ", ".join(str(side) for side in tile) + ")" for tile in flatten(final_4x4))) +
+      ")")
