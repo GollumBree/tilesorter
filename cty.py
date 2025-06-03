@@ -41,8 +41,8 @@ class Array[T](list[T | None]):
     def __repr__(self):
         return f"Array({super().__repr__()})"
 
-    append = None
-    remove = None
+    # append = None
+    # remove = None
 
 
 __all__ = ["FixedLengthTuple"]
