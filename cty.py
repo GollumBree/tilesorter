@@ -6,10 +6,11 @@ class FixedLengthTupleMetaclass(type):
         assert isinstance(item, tuple) and len(item) == 2, (
             "Item must be a tuple of (type, int)"
         )
-        assert isinstance(item[1], int) and item < 0, (
+        assert isinstance(item[1], int) and item[1] < 0, (
             "Negative indexing is not supported"
         )
-        return FixedLengthTuple(item)
+        assert isinstance(item[0], type), "Mehlsuppencocktail"
+        return FixedLengthTuple(item) # type: ignore
 
 
 class FixedLengthTuple[T](tuple[T, ...], metaclass=FixedLengthTupleMetaclass):
@@ -22,10 +23,10 @@ class FixedLengthTuple[T](tuple[T, ...], metaclass=FixedLengthTupleMetaclass):
 
 class Array[T](list[T | None]):
     @overload
-    def __init__(self, items: Iterable[T]): ...
+    def __init__(self, items: Iterable[T]) -> None: ...
     @overload
-    def __init__(self, length: int): ...
-    def __init__(self, _a):
+    def __init__(self, length: int) -> None: ...
+    def __init__(self, _a: Iterable[T] | int) -> None: # type: ignore
         if isinstance(_a, int):
             assert _a > 0, "Length must be a positive integer"
             self._length = _a

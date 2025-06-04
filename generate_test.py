@@ -80,11 +80,11 @@ def shuffle_and_rotate(grid, n=4):
 
 
 # Generiere, mische und rotiere
-grid_4x4 = generate_valid_grid(5)
+grid_4x4 = generate_valid_grid(4)
 # print("Generated 4x4 grid:")
 # for row in grid_4x4:
 #     print(row)
-final_4x4 = shuffle_and_rotate(grid_4x4, 5)
+final_4x4 = shuffle_and_rotate(grid_4x4, 4)
 # print("\nShuffled and rotated tiles:")
 # for row in final_4x4:
 #     print(row)
