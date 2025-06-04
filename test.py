@@ -14,9 +14,9 @@ grid = [
 for i in range(len(grid)):
     for j in range(len(grid[i])):
         if not check(
-            grid[i][j],
-            grid[i - 1][j] if i > 0 else None,
-            grid[i][j - 1] if j > 0 else None,
+            grid[i][j], # type: ignore
+            grid[i - 1][j] if i > 0 else None, # type: ignore
+            grid[i][j - 1] if j > 0 else None, # type: ignore
         ):
             print(
                 f"Tile at (x:{j}, y:{i}) is invalid with its neighbors (to the left or up)."
