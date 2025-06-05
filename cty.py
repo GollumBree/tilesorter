@@ -10,7 +10,7 @@ class FixedLengthTupleMetaclass(type):
             "Negative indexing is not supported"
         )
         assert isinstance(item[0], type), "Mehlsuppencocktail"
-        return FixedLengthTuple(item) # type: ignore
+        return FixedLengthTuple(item)  # type: ignore
 
 
 class FixedLengthTuple[T](tuple[T, ...], metaclass=FixedLengthTupleMetaclass):
@@ -21,29 +21,30 @@ class FixedLengthTuple[T](tuple[T, ...], metaclass=FixedLengthTupleMetaclass):
         return f"FixedLengthTuple[{self.type_annotation[0].__name__}, {self.type_annotation[1]}]"
 
 
-class Array[T](list[T | None]):
-    @overload
-    def __init__(self, items: Iterable[T]) -> None: ...
-    @overload
-    def __init__(self, length: int) -> None: ...
-    def __init__(self, _a: Iterable[T] | int) -> None: # type: ignore
-        if isinstance(_a, int):
-            assert _a > 0, "Length must be a positive integer"
-            self._length = _a
-            super().__init__([None] * _a)
-        else:
-            assert isinstance(_a, Iterable), "Items must be an iterable"
-            self._length = len(_a)
-            super().__init__(_a)
+Array = list
+# class Array[T](list[T | None]):
+#     @overload
+#     def __init__(self, items: Iterable[T]) -> None: ...
+#     @overload
+#     def __init__(self, length: int) -> None: ...
+#     def __init__(self, _a: Iterable[T] | int) -> None: # type: ignore
+#         if isinstance(_a, int):
+#             assert _a > 0, "Length must be a positive integer"
+#             self._length = _a
+#             super().__init__([None] * _a)
+#         else:
+#             assert isinstance(_a, Iterable), "Items must be an iterable"
+#             self._length = len(_a)
+#             super().__init__(_a)
 
-    def __len__(self):
-        return self._length
+#     def __len__(self):
+#         return self._length
 
-    def __repr__(self):
-        return f"Array({super().__repr__()})"
+#     def __repr__(self):
+#         return f"Array({super().__repr__()})"
 
-    # append = None
-    # remove = None
+#     # append = None
+#     # remove = None
 
 
 __all__ = ["FixedLengthTuple"]
