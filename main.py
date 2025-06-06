@@ -1,12 +1,14 @@
 from __future__ import annotations
-from enum import Enum
-from cty import FixedLengthTuple, Array
-from copy import deepcopy
+import copy
+import random
+from typing import Iterable, Iterator
+from matplotlib import pyplot as plt
+import generate_test
 
-k = 4
+import timeit
 
 
-class HalberAffe(Enum):
+class HalberAffe:
     """
     Enum for Affe
     Red=Rot, Yellow=Braun, Green=Grün, Blue=Grau
@@ -21,75 +23,124 @@ class HalberAffe(Enum):
     GREEN_BOTTOM = 6
     BLUE_BOTTOM = 7
 
-    def opposite(self) -> HalberAffe:
-        """
-        Returns the opposite Affe
-        """
-        return HalberAffe((self.value + 4) % 8)
+
+def opposite(pos: int) -> int:
+    """
+    Returns the opposite Affe
+    """
+    return (pos + 4) % 8
 
 
-type Tile = tuple[HalberAffe, HalberAffe, HalberAffe, HalberAffe]
+type Tile = tuple[int, int, int, int]
 
 
 def check(tile: Tile, top: Tile | None, left: Tile | None) -> bool:
-    return (top is None or tile[0] == top[2].opposite()) and (
-        left is None or tile[1] == left[3].opposite()
+    return (top is None or tile[0] == opposite(top[2])) and (
+        left is None or tile[1] == opposite(left[3])
     )
 
 
-def rotate(tile: Tile, times: int) -> Tile:
+def rotate(tile: Tile) -> Iterator[Tile]:
     """
     Rotates the tile times*90 degrees clockwise.
     """
-    for _ in range(times % 4):
-        tile = (tile[1], tile[2], tile[3], tile[0])
-    return tile
+    yield tile
+    yield (
+        (
+            tile[1],
+            tile[2],
+            tile[3],
+            tile[0],
+        )
+    )
+    yield (
+        (
+            tile[2],
+            tile[3],
+            tile[0],
+            tile[1],
+        )
+    )
+    yield (
+        (
+            tile[3],
+            tile[0],
+            tile[1],
+            tile[2],
+        )
+    )
+
+
+data = []
 
 
 def backtrack(
-    board: Array[Array[Tile]], tiles: tuple[Tile, ...], index: int = 0
-) -> None | Array[Array[Tile]]:
-    #print(f"starting backtrack with index {index}, {len(tiles)} tiles left and board. {board}")
+    board: list[Tile | None], tiles: Iterable[Tile], k: int, index: int = 0
+) -> None | list[Tile | None]:
+    # print(f"starting backtrack with index {index}, {len(tiles)} tiles left and board. {board}")
+    # data.append(index) # TODO
     if index >= k * k:
         return board
-    for tile, original in [(rotate(t, i), t) for t in tiles for i in range(4)]:
-        board[index // k][index % k] = tile
-        if check(
-            tile,
-            board[index // k - 1][index % k] if index // k > 0 else None,
-            board[index // k][(index % k) - 1] if index % k > 0 else None,
-        ):
-            rboard = backtrack(
-                deepcopy(board),
-                tuple(btile for btile in tiles if btile is not original),
-                index + 1,
-            )
-            if rboard:
-                return rboard
+    initial = board[index]
+    for original in tiles:
+        for tile in rotate(original):
+            if check(
+                tile,
+                board[index - k] if index > 4 else None,
+                board[index - 1] if index % k > 0 else None,
+            ):
+                board[index] = tile
+                rboard = backtrack(
+                    board,
+                    # tuple(filter(lambda x: x is not original, tiles)),
+                    tuple(btile for btile in tiles if btile is not original),
+                    k,
+                    index + 1,
+                )
+                if rboard:
+                    return rboard
+    board[index] = initial
     return None
 
-type FixedLengthTuple[T] = tuple[T, ...]
 
 def main():
-    tiles: FixedLengthTuple[Tile] = ((HalberAffe.GREEN_BOTTOM, HalberAffe.BLUE_BOTTOM, HalberAffe.GREEN_TOP, HalberAffe.RED_TOP), (HalberAffe.BLUE_BOTTOM, HalberAffe.RED_TOP, HalberAffe.RED_TOP, HalberAffe.GREEN_BOTTOM), (HalberAffe.RED_BOTTOM, HalberAffe.GREEN_BOTTOM, HalberAffe.YELLOW_TOP, HalberAffe.GREEN_TOP), (HalberAffe.RED_TOP, HalberAffe.YELLOW_BOTTOM, HalberAffe.GREEN_TOP, HalberAffe.GREEN_TOP), (HalberAffe.BLUE_TOP, HalberAffe.YELLOW_TOP, HalberAffe.GREEN_TOP, HalberAffe.GREEN_TOP), (HalberAffe.RED_BOTTOM, HalberAffe.BLUE_BOTTOM, HalberAffe.YELLOW_BOTTOM, HalberAffe.GREEN_TOP), (HalberAffe.BLUE_TOP, HalberAffe.YELLOW_BOTTOM, HalberAffe.GREEN_TOP, HalberAffe.YELLOW_BOTTOM), (HalberAffe.BLUE_BOTTOM, HalberAffe.YELLOW_TOP, HalberAffe.RED_BOTTOM, HalberAffe.RED_BOTTOM), (HalberAffe.RED_TOP, HalberAffe.BLUE_TOP, HalberAffe.YELLOW_BOTTOM, HalberAffe.RED_TOP), (HalberAffe.RED_BOTTOM, HalberAffe.BLUE_BOTTOM, HalberAffe.RED_TOP, HalberAffe.GREEN_BOTTOM), (HalberAffe.RED_BOTTOM, HalberAffe.RED_BOTTOM, HalberAffe.GREEN_BOTTOM, HalberAffe.GREEN_BOTTOM), (HalberAffe.BLUE_TOP, HalberAffe.YELLOW_TOP, HalberAffe.RED_BOTTOM, HalberAffe.GREEN_TOP), (HalberAffe.YELLOW_BOTTOM, HalberAffe.GREEN_BOTTOM, HalberAffe.BLUE_TOP, HalberAffe.GREEN_BOTTOM), (HalberAffe.RED_BOTTOM, HalberAffe.GREEN_BOTTOM, HalberAffe.YELLOW_BOTTOM, HalberAffe.BLUE_BOTTOM), (HalberAffe.BLUE_TOP, HalberAffe.RED_TOP, HalberAffe.YELLOW_TOP, HalberAffe.GREEN_TOP), (HalberAffe.BLUE_TOP, HalberAffe.RED_TOP, HalberAffe.BLUE_BOTTOM, HalberAffe.BLUE_BOTTOM))
+    b = 5
+    k = 5
+    random.seed(69)
+    tiles = generate_test.get_numbers(k)
+    print(
+        timeit.timeit(
+            f"main2(tiles, {k})",
+            globals={**globals(), "tiles": copy.deepcopy(tiles)},
+            number=b,
+        )
+        / b
+    )
 
-    annalenabaerboard: Array[Array[Tile]] = Array([Array[Tile](k) for _ in range(k)])
-    result = backtrack(annalenabaerboard, tiles)
+
+def main2(tiles, k):
+    annalenabaerboard: list[Tile | None] = [None] * k**2
+    result = backtrack(annalenabaerboard, tiles, k)
     if result is None:
         print("nonono")
         return
     # print(result)
-    for row in result:
-        assert row is not None
-        print(
-            "[",
-            " | ".join(
-                f"{tile[0].name} {tile[1].name} {tile[2].name} {tile[3].name}" # type: ignore
-                for tile in row
-            ),
-            "]",
-        )
+    # for row in result:
+    #     assert row is not None
+    # print(
+    #     "[",
+    #     " | ".join(
+    #         f"{tile[0]} {tile[1]} {tile[2]} {tile[3]}" # type: ignore
+    #         for tile in row
+    #     ),
+    #     "]",
+    # )
 
 
 if __name__ == "__main__":
     main()
+    # plt.plot(data)
+    if data:
+        plt.ylim(0, k**2)
+        plt.bar(*zip(*enumerate(data)), width=1)
+        plt.show()

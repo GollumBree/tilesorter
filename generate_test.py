@@ -44,6 +44,12 @@ def to_halberaffe(color: str, typ: str) -> str:
     return f"HalberAffe.{color_map[color]}_{type_map[typ]}"
 
 
+def to_number(color: str, typ: str) -> int:
+    color_map = {"R": 0, "G": 1, "B": 2, "Y": 3}
+    type_map = {"O": 0, "U": 4}
+    return color_map[color] + type_map[typ]
+
+
 def opposite_type(t: str) -> str:
     return "U" if t == "O" else "O"
 
@@ -57,9 +63,11 @@ def random_side() -> Side:
     return random.choice(colors), random.choice(types)
 
 
-def convert_tile(tile):
+def convert_tile_to_halberaffe(tile):
     return tuple(to_halberaffe(*side) for side in tile)
 
+def convert_tile_to_number(tile):
+    return tuple(to_number(*side) for side in tile)
 
 def rotate_tile(
     tile: Tuple[str, str, str, str], times: int
@@ -71,31 +79,42 @@ def rotate_tile(
 
 
 def shuffle_and_rotate(grid, n=4):
-    tiles = [
-        convert_tile(grid[i][j]) for i in range(len(grid)) for j in range(len(grid))
-    ]
-    random.shuffle(tiles)
-    tiles = [rotate_tile(tile, random.randint(0, 3)) for tile in tiles]
+    random.shuffle(grid)
+    tiles = [rotate_tile(tile, random.randint(0, 3)) for tile in grid]
     return tuple(tiles[i * n : (i + 1) * n] for i in range(n))
 
 
-# Generiere, mische und rotiere
-grid_4x4 = generate_valid_grid(4)
-# print("Generated 4x4 grid:")
-# for row in grid_4x4:
-#     print(row)
-final_4x4 = shuffle_and_rotate(grid_4x4, 4)
-# print("\nShuffled and rotated tiles:")
-# for row in final_4x4:
-#     print(row)
+def get_numbers(n):
+    grid = generate_valid_grid(n)
+    final = shuffle_and_rotate([convert_tile_to_number(grid[i][j]) for i in range(len(grid)) for j in range(len(grid))], n)
+    return tuple(flatten(final))
 
-print(
-    "("
-    + ", ".join(
-        (
-            "(" + ", ".join(str(side) for side in tile) + ")"
-            for tile in flatten(final_4x4)
-        )
+
+def main(n):
+    # Generiere, mische und rotiere
+    grid = generate_valid_grid(n)
+    # print("Generated 4x4 grid:")
+    # for row in grid_4x4:
+    #     print(row)
+    final = shuffle_and_rotate(
+        [convert_tile_to_halberaffe(grid[i][j]) for i in range(len(grid)) for j in range(len(grid))],
+        n,
     )
-    + ")"
-)
+    # print("\nShuffled and rotated tiles:")
+    # for row in final_4x4:
+    #     print(row)
+
+    print(
+        "("
+        + ", ".join(
+            (
+                "(" + ", ".join(str(side) for side in tile) + ")"
+                for tile in flatten(final)
+            )
+        )
+        + ")"
+    )
+
+
+if __name__ == "__main__":
+    main(4)
