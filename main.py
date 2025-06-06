@@ -7,8 +7,6 @@ import generate_test
 
 import timeit
 
-k = 5
-
 
 class HalberAffe:
     """
@@ -77,40 +75,42 @@ data = []
 
 
 def backtrack(
-    board: list[list[Tile | None]], tiles: Iterable[Tile], index: int = 0
-) -> None | list[list[Tile | None]]:
+    board: list[Tile | None], tiles: Iterable[Tile], k: int, index: int = 0
+) -> None | list[Tile | None]:
     # print(f"starting backtrack with index {index}, {len(tiles)} tiles left and board. {board}")
     # data.append(index) # TODO
     if index >= k * k:
         return board
-    initial = board[index // k][index % k]
+    initial = board[index]
     for original in tiles:
         for tile in rotate(original):
             if check(
                 tile,
-                board[index // k - 1][index % k] if index // k > 0 else None,
-                board[index // k][(index % k) - 1] if index % k > 0 else None,
+                board[index - k] if index > 4 else None,
+                board[index - 1] if index % k > 0 else None,
             ):
-                board[index // k][index % k] = tile
+                board[index] = tile
                 rboard = backtrack(
                     board,
                     # tuple(filter(lambda x: x is not original, tiles)),
                     tuple(btile for btile in tiles if btile is not original),
+                    k,
                     index + 1,
                 )
                 if rboard:
                     return rboard
-    board[index // k][index % k] = initial
+    board[index] = initial
     return None
 
 
 def main():
     b = 5
+    k = 5
     random.seed(69)
     tiles = generate_test.get_numbers(k)
     print(
         timeit.timeit(
-            "main2(tiles)",
+            f"main2(tiles, {k})",
             globals={**globals(), "tiles": copy.deepcopy(tiles)},
             number=b,
         )
@@ -118,10 +118,9 @@ def main():
     )
 
 
-def main2(tiles):
-    j = k
-    annalenabaerboard: list[list[Tile | None]] = [[None] * j for _ in range(j)]
-    result = backtrack(annalenabaerboard, tiles)
+def main2(tiles, k):
+    annalenabaerboard: list[Tile | None] = [None] * k**2
+    result = backtrack(annalenabaerboard, tiles, k)
     if result is None:
         print("nonono")
         return
